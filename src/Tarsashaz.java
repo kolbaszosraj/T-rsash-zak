@@ -36,6 +36,7 @@ public class Tarsashaz extends javax.swing.JFrame {
     h.setVisible(true);
     
     }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -64,7 +65,7 @@ public class Tarsashaz extends javax.swing.JFrame {
         });
 
         JBlako.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JBlako.setText("Lakók hozzáadása");
+        JBlako.setText("Lakók Kezelése");
         JBlako.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JBlakoActionPerformed(evt);

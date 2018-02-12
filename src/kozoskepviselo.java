@@ -4,6 +4,11 @@
  * and open the template in the editor.
  */
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -12,15 +17,32 @@
 public class kozoskepviselo extends javax.swing.JDialog {
 
     private DbConnection dbConnection = null;
-    
+
     /**
      * Creates new form Sugo
      */
     public kozoskepviselo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         dbConnection = DbConnection.getInstance();
+        Show_UsersList_In_JTable();
+    }
+
+    public void Show_UsersList_In_JTable() {
+
+        ArrayList<DbConnection.Users> list = dbConnection.getkezelo();
+        DefaultTableModel model = (DefaultTableModel) Listatabla.getModel();
+
+        model.setRowCount(0);
+        Object[] row = new Object[2];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).ID();
+            row[1] = list.get(i).Nev();
+
+            model.addRow(row);
+        }
+
     }
 
     /**
@@ -32,22 +54,28 @@ public class kozoskepviselo extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        JBkepvieslo = new javax.swing.JButton();
         JTnev = new javax.swing.JTextField();
         kozoskeptorol = new javax.swing.JButton();
-        JTorol = new javax.swing.JTextField();
+        JModosit = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Listatabla = new javax.swing.JTable();
+        JBFrissit = new javax.swing.JButton();
+        Jtorol1 = new javax.swing.JTextField();
+        JTID = new javax.swing.JTextField();
+        JLID = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Közösképviselő hozzáadása");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setMnemonic('k');
-        jButton1.setText("Közösképviselő neve");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        JBkepvieslo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JBkepvieslo.setMnemonic('k');
+        JBkepvieslo.setText("Közösképviselő hozzáadása");
+        JBkepvieslo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                JBkepviesloActionPerformed(evt);
             }
         });
 
@@ -60,6 +88,56 @@ public class kozoskepviselo extends javax.swing.JDialog {
             }
         });
 
+        JModosit.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+
+        Listatabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Név"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        Listatabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ListatablaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ListatablaMouseEntered(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Listatabla);
+        if (Listatabla.getColumnModel().getColumnCount() > 0) {
+            Listatabla.getColumnModel().getColumn(0).setResizable(false);
+            Listatabla.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        JBFrissit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JBFrissit.setText("Módosít");
+        JBFrissit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBFrissitActionPerformed(evt);
+            }
+        });
+
+        Jtorol1.setEditable(false);
+        Jtorol1.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+
+        JTID.setEditable(false);
+        JTID.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        JLID.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        JLID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        JLID.setText("Közösképviselő ID:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,48 +145,111 @@ public class kozoskepviselo extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(kozoskeptorol))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JTnev, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JTorol, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49))
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(JBkepvieslo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(kozoskeptorol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(JBFrissit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JTnev, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JModosit, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Jtorol1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(JLID, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JTID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, kozoskeptorol});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(JTnev)
-                        .addGap(1, 1, 1)))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JLID)
+                    .addComponent(JTID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(kozoskeptorol)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JTnev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JBkepvieslo))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Jtorol1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(JTorol)
-                        .addGap(1, 1, 1)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addGap(1, 1, 1)
+                        .addComponent(kozoskeptorol)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JBFrissit)
+                    .addComponent(JModosit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      dbConnection.uj(JTnev.getText());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void JBkepviesloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBkepviesloActionPerformed
+//közösképviselő hozzáadása után tisztitjuk a táblákat
+        if (JTnev.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Kérem Adjon meg egy Nevet", "Üres Mező", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            dbConnection.uj(JTnev.getText());
+            JTnev.setText("");
+        }  //Meghivjuk a Tábla methodust hogy lásuk mi van benne
+        Show_UsersList_In_JTable();
+    }//GEN-LAST:event_JBkepviesloActionPerformed
 
     private void kozoskeptorolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kozoskeptorolActionPerformed
-        dbConnection.torol(JTorol.getText());
+        //Törlés után nullázuk az összes beviteli mezőt
+        if (Jtorol1.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "KéremVálaszon Nevet", "Üres Mező", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            dbConnection.kepviselotorol(JModosit.getText());
+            //Show_UsersList_In_JTable();
+            Jtorol1.setText("");
+            JModosit.setText("");
+            JTID.setText("");
+        }  //Meghivjuk a Tábla methodust hogy lásuk mi van benne
+        Show_UsersList_In_JTable();
     }//GEN-LAST:event_kozoskeptorolActionPerformed
+
+    private void ListatablaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListatablaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ListatablaMouseEntered
+
+    private void ListatablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListatablaMouseClicked
+        int i = Listatabla.getSelectedRow();
+        TableModel model = Listatabla.getModel();
+        JTID.setText(model.getValueAt(i, 0).toString());
+        JModosit.setText(model.getValueAt(i, 1).toString());
+        Jtorol1.setText(model.getValueAt(i, 1).toString());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ListatablaMouseClicked
+
+    private void JBFrissitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFrissitActionPerformed
+        //Frissités után nullázuk az összes beviteli mező értékét
+        if (JModosit.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "KéremVálaszon Nevet", "Üres Mező", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            dbConnection.keviselofriss(JModosit.getText(), JTID.getText());
+            Jtorol1.setText("");
+            JModosit.setText("");
+            JTID.setText("");
+
+        }
+        //Meghivjuk a Tábla methodust hogy lásuk mi van benne
+        Show_UsersList_In_JTable();
+
+    }//GEN-LAST:event_JBFrissitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,9 +297,15 @@ public class kozoskepviselo extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBFrissit;
+    private javax.swing.JButton JBkepvieslo;
+    private javax.swing.JLabel JLID;
+    private javax.swing.JTextField JModosit;
+    public javax.swing.JTextField JTID;
     private javax.swing.JTextField JTnev;
-    private javax.swing.JTextField JTorol;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField Jtorol1;
+    private javax.swing.JTable Listatabla;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton kozoskeptorol;
     // End of variables declaration//GEN-END:variables
 }
