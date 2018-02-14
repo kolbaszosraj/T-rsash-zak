@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -67,7 +68,8 @@ public class Hazak extends javax.swing.JDialog {
         jTable1 = new javax.swing.JTable();
         JTazonosit = new javax.swing.JTextField();
         JLAzonosit = new javax.swing.JLabel();
-        JBhaztorol = new javax.swing.JButton();
+        JBmodosit = new javax.swing.JButton();
+        JBHaztorles = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lakások kezelése");
@@ -152,11 +154,19 @@ public class Hazak extends javax.swing.JDialog {
         JLAzonosit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         JLAzonosit.setText("ID:");
 
-        JBhaztorol.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        JBhaztorol.setText("Ház Törlése");
-        JBhaztorol.addActionListener(new java.awt.event.ActionListener() {
+        JBmodosit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JBmodosit.setText("Módositás");
+        JBmodosit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBhaztorolActionPerformed(evt);
+                JBmodositActionPerformed(evt);
+            }
+        });
+
+        JBHaztorles.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JBHaztorles.setText("Ház Törlése");
+        JBHaztorles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBHaztorlesActionPerformed(evt);
             }
         });
 
@@ -167,12 +177,10 @@ public class Hazak extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addComponent(hazhozz, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JBhaztorol, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -193,11 +201,15 @@ public class Hazak extends javax.swing.JDialog {
                                             .addComponent(Jhaz, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(Jutca, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(Jhazszam, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(Jkerulet, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(0, 522, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE)))
+                                            .addComponent(Jkerulet, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(hazhozz, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JBmodosit, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JBHaztorles)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -233,7 +245,8 @@ public class Hazak extends javax.swing.JDialog {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(hazhozz)
-                    .addComponent(JBhaztorol))
+                    .addComponent(JBmodosit)
+                    .addComponent(JBHaztorles))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -262,9 +275,38 @@ public class Hazak extends javax.swing.JDialog {
         Jhazszam.setText(model.getValueAt(i, 1).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void JBhaztorolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBhaztorolActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JBhaztorolActionPerformed
+    private void JBmodositActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBmodositActionPerformed
+        if (JBmodosit.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Kérem Válaszon Házat", "Üres Mező", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            dbConnection.Hazakfriss(Jkerulet.getText(), Jvaros.getText(), Jhaz.getText(), Jutca.getText(), Jhazszam.getText(), JTazonosit.getText());
+            Jkerulet.setText("");
+            Jvaros.setText("");
+            Jhaz.setText("");
+            Jutca.setText("");
+            Jhazszam.setText("");
+            JTazonosit.setText("");
+
+        }
+        Show_UsersList_In_JTable();
+    }//GEN-LAST:event_JBmodositActionPerformed
+
+    private void JBHaztorlesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBHaztorlesActionPerformed
+        if (JTazonosit.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Kérem Válaszon Házat", "Üres Mező", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            dbConnection.Haztorlese(JTazonosit.getText());
+
+            Jkerulet.setText("");
+            Jvaros.setText("");
+            Jhaz.setText("");
+            Jutca.setText("");
+            Jhazszam.setText("");
+            JTazonosit.setText("");
+        }  //Meghivjuk a Tábla methodust hogy lásuk mi van benne
+        Show_UsersList_In_JTable();
+    }//GEN-LAST:event_JBHaztorlesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,7 +354,8 @@ public class Hazak extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton JBhaztorol;
+    private javax.swing.JButton JBHaztorles;
+    private javax.swing.JButton JBmodosit;
     private javax.swing.JLabel JLAzonosit;
     private javax.swing.JLabel JLabel;
     private javax.swing.JTextField JTazonosit;

@@ -275,8 +275,13 @@ public class Lakok extends javax.swing.JDialog {
 
         } else {
             dbConnection.ujlako(JTnev.getText(), Integer.parseInt(JTemelet.getText()), Integer.parseInt(JTajto.getText()), Integer.parseInt(JTnegyzetmeter.getText()));
-
+            JTnev.setText("");
+            JTemelet.setText("");
+            JTajto.setText("");
+            JTnegyzetmeter.setText("");
+            JTID.setText("");
         }
+
         Show_UsersList_In_JTable();
     }//GEN-LAST:event_JBhozzaActionPerformed
 
@@ -301,12 +306,24 @@ public class Lakok extends javax.swing.JDialog {
             JTemelet.setText("");
             JTajto.setText("");
             JTnegyzetmeter.setText("");
+            JTID.setText("");
         }
         Show_UsersList_In_JTable();
     }//GEN-LAST:event_JBLaktorolActionPerformed
 
     private void JBModositActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBModositActionPerformed
+if (JTnev.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "KéremVálaszon Nevet", "Üres Mező", JOptionPane.INFORMATION_MESSAGE);
 
+        } else {
+            dbConnection.lakomodosit(JTnev.getText(),JTemelet.getText(),JTajto.getText(),JTID.getText());
+            JTnev.setText("");
+            JTemelet.setText("");
+            JTajto.setText("");
+            JTnegyzetmeter.setText("");
+            JTID.setText("");
+        }
+        Show_UsersList_In_JTable();
     }//GEN-LAST:event_JBModositActionPerformed
 
     /**

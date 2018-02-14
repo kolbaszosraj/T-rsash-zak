@@ -71,6 +71,12 @@ public class DbConnection {
         return parancs.executeUpdate(query);
     }
 
+   
+
+    
+
+    
+
     //kepviselok frissitése
     public void keviselofriss(String nev, String id) {
         try {
@@ -82,6 +88,135 @@ public class DbConnection {
         }
     }
 
+//Képviselő törlése
+    public void kepviselotorol(String nev) {
+        String[] gombok = {"Igen", "Nem"};
+        int v = JOptionPane.showOptionDialog(null, "Biztosan törli?", "", JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, gombok, gombok[0]);
+        if (v == JOptionPane.YES_OPTION) {
+            try {
+                String s = "DELETE FROM hazkezelok WHERE nev=('" + nev + "');";
+                int sorok = parancs.executeUpdate(s);
+
+            } catch (SQLException ex) {
+                System.out.println("Nem sikerült törölni");
+            }
+        }
+    }
+    
+
+    //Ujj Ház felvétele a haz táblába
+    public void ujhaz(int kerulet, String varos, String haz, String utca, int hazszam) {
+        try {
+            String h = "INSERT INTO hazak(kerulet,varos,haz,utca,hazszam)VALUES('" + kerulet + "','" + varos + "','" + haz + "','" + utca + "'," + hazszam + ");";
+            int sorok = parancs.executeUpdate(h);
+
+            JOptionPane.showMessageDialog(null, "Ház Hozzá Adva", "Suprise", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            System.out.println("" + ex);
+        }
+    }
+
+    //Ház Fissitése
+    public void Hazakfriss(String kerulet, String varos, String haz, String utca, String hazszam, String id) {
+        try {
+            String s = "UPDATE hazak SET kerulet=('" + kerulet + "'),varos=('" + varos + "'),haz=('" + haz + "') , utca=('" + utca + "') , hazszam=('" + hazszam + "') WHERE id=('" + id + "') ;";
+            int sorok = parancs.executeUpdate(s);
+            JOptionPane.showMessageDialog(null, "Ház Modósitva", "Módosítva", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            System.out.println("" + ex);
+        }
+    }
+    
+     //Ház törlése
+    public void Haztorlese(String id) {
+        String[] gombok = {"Igen", "Nem"};
+        int v = JOptionPane.showOptionDialog(null, "Biztosan törli?", "", JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, gombok, gombok[0]);
+        if (v == JOptionPane.YES_OPTION) {
+            try {
+                String s = "DELETE FROM hazak WHERE id=('" + id + "');";
+                int sorok = parancs.executeUpdate(s);
+
+            } catch (SQLException ex) {
+                System.out.println("Nem sikerült törölni");
+            }
+        }
+    }
+    
+    //Ujj lako felvétele
+    public void ujlako(String nev, int emelet, int ajto, int negyzetmeter) {
+        try {
+            String h = "INSERT INTO lakok(nev,emelet,ajto,negyzetmeter)VALUES('" + nev
+                    + "','" + emelet + "','" + ajto
+                    + "'," + negyzetmeter + ");";
+            int sorok = parancs.executeUpdate(h);
+            JOptionPane.showMessageDialog(null, "Lakó Hozzá Adva", "Suprise", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "" + ex, "Suprise", JOptionPane.ERROR);
+        }
+    }
+
+    //Lakó módosit
+    public void lakomodosit(String nev, String emelet, String ajto, String id) {
+        try {
+            String s = "UPDATE lakok SET nev=('" + nev + "') , emelet=('" + emelet + "') , ajto=('" + ajto + "') WHERE id=('" + id + "') ;";
+            int sorok = parancs.executeUpdate(s);
+            JOptionPane.showMessageDialog(null, "Lakó Modósitva", "Módosítva", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            System.out.println("" + ex);
+        }
+    }
+
+    //Lakó Törlése
+    public void lakotorles(String nev) {
+        String[] gombok = {"Igen", "Nem"};
+        int v = JOptionPane.showOptionDialog(null, "Biztosan törli?", "", JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, gombok, gombok[0]);
+        if (v == JOptionPane.YES_OPTION) {
+            try {
+                String s = "DELETE FROM lakok WHERE nev=('" + nev + "');";
+                int sorok = parancs.executeUpdate(s);
+
+            } catch (SQLException ex) {
+                System.out.println("Nem sikerült törölni");
+            }
+        }
+    }
+
+    //Lakó Frissitése
+    public void lako(String nev, String emelet, String ajto, String negyzetmeter, String id) {
+        try {
+            String s = "UPDATE hazkezelok SET nev=('" + nev + "'),emelet=('" + emelet + "'),ajto=('" + ajto + "'),negyzetmeter=('" + negyzetmeter + "') WHERE id=('" + id + "') ;";
+            int sorok = parancs.executeUpdate(s);
+            JOptionPane.showMessageDialog(null, "Társasház kezelő Modósitva", "Módosítva", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            System.out.println("" + ex);
+        }
+    }
+
+    //Házak ki listázása amikor az adabázisban megtalálhatók.
+    public ArrayList<User> getUsersList() {
+        ArrayList<User> usersList = new ArrayList<>();
+        Connection connection = kapcs;
+
+        String query = "SELECT * FROM `hazak` ";
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                User user = new User(rs.getInt("id"), rs.getInt("kerulet"), rs.getString("varos"), rs.getString("haz"), rs.getString("utca"), rs.getInt("hazszam"));
+                usersList.add(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usersList;
+
+    }
+    
     //Lakók ki iratása táblázatba
     public ArrayList<Users2> lako() {
         ArrayList<Users2> usersList2 = new ArrayList<>();
@@ -125,95 +260,7 @@ public class DbConnection {
         return usersList1;
 
     }
-
-    //Házak ki listázása amikor az adabázisban megtalálhatók.
-    public ArrayList<User> getUsersList() {
-        ArrayList<User> usersList = new ArrayList<>();
-        Connection connection = kapcs;
-
-        String query = "SELECT * FROM `hazak` ";
-        try {
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getInt("kerulet"), rs.getString("varos"), rs.getString("haz"), rs.getString("utca"), rs.getInt("hazszam"));
-                usersList.add(user);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return usersList;
-
-    }
-
-    //Ujj Ház felvétele a haz táblába
-    public void ujhaz(int kerulet, String varos, String haz, String utca, int hazszam) {
-        try {
-            String h = "INSERT INTO hazak(kerulet,varos,haz,utca,hazszam)VALUES('" + kerulet + "','" + varos + "','" + haz + "','" + utca + "'," + hazszam + ");";
-            int sorok = parancs.executeUpdate(h);
-
-            JOptionPane.showMessageDialog(null, "Ház Hozzá Adva", "Suprise", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            System.out.println("" + ex);
-        }
-    }
-
-    //Ujj lako felvétele a lakok táblába
-    public void ujlako(String nev, int emelet, int ajto, int negyzetmeter) {
-        try {
-            String h = "INSERT INTO lakok(nev,emelet,ajto,negyzetmeter)VALUES('" + nev
-                    + "','" + emelet + "','" + ajto
-                    + "'," + negyzetmeter + ");";
-            int sorok = parancs.executeUpdate(h);
-            JOptionPane.showMessageDialog(null, "Lakó Hozzá Adva", "Suprise", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "" + ex, "Suprise", JOptionPane.ERROR);
-        }
-    }
-
-    //törlés a kepviselotorol közül
-    public void kepviselotorol(String nev) {
-        String[] gombok = {"Igen", "Nem"};
-        int v = JOptionPane.showOptionDialog(null, "Biztosan törli?", "", JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, gombok, gombok[0]);
-        if (v == JOptionPane.YES_OPTION) {
-            try {
-                String s = "DELETE FROM hazkezelok WHERE nev=('" + nev + "');";
-                int sorok = parancs.executeUpdate(s);
-
-            } catch (SQLException ex) {
-                System.out.println("Nem sikerült törölni");
-            }
-        }
-    }
-
-    //Lakó Törlése
-    public void lakotorles(String nev) {
-        String[] gombok = {"Igen", "Nem"};
-        int v = JOptionPane.showOptionDialog(null, "Biztosan törli?", "", JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, gombok, gombok[0]);
-        if (v == JOptionPane.YES_OPTION) {
-            try {
-                String s = "DELETE FROM lakok WHERE nev=('" + nev + "');";
-                int sorok = parancs.executeUpdate(s);
-
-            } catch (SQLException ex) {
-                System.out.println("Nem sikerült törölni");
-            }
-        }
-    }
-    //Lakó Frissitése
-        public void lako(String nev, String emelet,String ajto,String negyzetmeter,String id) {
-        try {
-            String s = "UPDATE hazkezelok SET nev=('" + nev + "'),emelet=('"+emelet+"'),ajto=('"+ajto+"'),negyzetmeter=('"+negyzetmeter+"') WHERE id=('" + id + "') ;";
-            int sorok = parancs.executeUpdate(s);
-            JOptionPane.showMessageDialog(null, "Társasház kezelő Modósitva", "Módosítva", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            System.out.println("" + ex);
-        }
-    }
+    
     //ház lekérdezéséhez szükséges
     static class User {
 
