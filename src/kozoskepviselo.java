@@ -64,6 +64,7 @@ public class kozoskepviselo extends javax.swing.JDialog {
         Jtorol1 = new javax.swing.JTextField();
         JTID = new javax.swing.JTextField();
         JLID = new javax.swing.JLabel();
+        JBFrissit1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Közösképviselő hozzáadása");
@@ -138,6 +139,14 @@ public class kozoskepviselo extends javax.swing.JDialog {
         JLID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         JLID.setText("Közösképviselő ID:");
 
+        JBFrissit1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JBFrissit1.setText("Reset");
+        JBFrissit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBFrissit1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -153,7 +162,8 @@ public class kozoskepviselo extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(JBkepvieslo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(kozoskeptorol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(JBFrissit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(JBFrissit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(JBFrissit1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(JTnev, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,8 +196,10 @@ public class kozoskepviselo extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBFrissit)
                     .addComponent(JModosit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(JBFrissit1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -251,6 +263,13 @@ public class kozoskepviselo extends javax.swing.JDialog {
 
     }//GEN-LAST:event_JBFrissitActionPerformed
 
+    private void JBFrissit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFrissit1ActionPerformed
+JTID.setText("");   
+JTnev.setText("");
+Jtorol1.setText("");
+JModosit.setText("");
+    }//GEN-LAST:event_JBFrissit1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -298,6 +317,7 @@ public class kozoskepviselo extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBFrissit;
+    private javax.swing.JButton JBFrissit1;
     private javax.swing.JButton JBkepvieslo;
     private javax.swing.JLabel JLID;
     private javax.swing.JTextField JModosit;

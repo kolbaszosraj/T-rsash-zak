@@ -23,13 +23,14 @@ public class Lakok extends javax.swing.JDialog {
         initComponents();
         dbConnection = DbConnection.getInstance();
         Show_UsersList_In_JTable();
+        dbConnection.LakoCombobox();
     }
 
     public void Show_UsersList_In_JTable() {
 
         ArrayList<DbConnection.Users2> list = dbConnection.lako();
         DefaultTableModel model = (DefaultTableModel) lakok_table.getModel();
-        Object[] row = new Object[5];
+        Object[] row = new Object[6];
         model.setRowCount(0);
         for (int i = 0; i < list.size(); i++) {
             row[0] = list.get(i).ID();
@@ -37,6 +38,7 @@ public class Lakok extends javax.swing.JDialog {
             row[2] = list.get(i).Emelet();
             row[3] = list.get(i).Ajto();
             row[4] = list.get(i).Negyzetmeter();
+            row[5] = list.get(i).Nev1();
 
             model.addRow(row);
         }
@@ -70,6 +72,11 @@ public class Lakok extends javax.swing.JDialog {
         JBModosit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         JTID = new javax.swing.JTextField();
+        Lakok_combo = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        Haz_ID = new javax.swing.JTextField();
+        JBModosit1 = new javax.swing.JButton();
 
         jTextField5.setText("jTextField5");
 
@@ -134,14 +141,14 @@ public class Lakok extends javax.swing.JDialog {
 
             },
             new String [] {
-                "ID", "Név", "Emelet", "Ajtó", "Lakás m2"
+                "ID", "Név", "Emelet", "Ajtó", "Lakás m2", "Kezelő neve"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -187,6 +194,32 @@ public class Lakok extends javax.swing.JDialog {
         JTID.setEditable(false);
         JTID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        Lakok_combo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Lakok_comboActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Ház név:");
+        jLabel2.setToolTipText("");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Ház ID:");
+        jLabel3.setToolTipText("");
+
+        Haz_ID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        JBModosit1.setText("Reset");
+        JBModosit1.setToolTipText("");
+        JBModosit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBModosit1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,16 +227,14 @@ public class Lakok extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(JBhozza)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(JBLaktorol)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(JBModosit))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Haz_ID))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -219,11 +250,21 @@ public class Lakok extends javax.swing.JDialog {
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(Lakok_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(JTemelet, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                        .addComponent(JTID)))))
+                                        .addComponent(JTID))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(JBhozza)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JBLaktorol)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JBModosit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(JBModosit1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -233,7 +274,15 @@ public class Lakok extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Lakok_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(Haz_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(JTID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -257,10 +306,11 @@ public class Lakok extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBhozza)
                     .addComponent(JBLaktorol)
-                    .addComponent(JBModosit))
+                    .addComponent(JBModosit)
+                    .addComponent(JBModosit1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -274,7 +324,8 @@ public class Lakok extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Kérem Vigye fel az összes adatott", "Üres Mező", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
-            dbConnection.ujlako(JTnev.getText(), Integer.parseInt(JTemelet.getText()), Integer.parseInt(JTajto.getText()), Integer.parseInt(JTnegyzetmeter.getText()));
+            dbConnection.ujlako(JTnev.getText(), Integer.parseInt(JTemelet.getText()), Integer.parseInt(JTajto.getText()),
+                    Integer.parseInt(JTnegyzetmeter.getText()), Integer.parseInt(Haz_ID.getText()));
             JTnev.setText("");
             JTemelet.setText("");
             JTajto.setText("");
@@ -312,11 +363,11 @@ public class Lakok extends javax.swing.JDialog {
     }//GEN-LAST:event_JBLaktorolActionPerformed
 
     private void JBModositActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBModositActionPerformed
-if (JTnev.getText().equals("")) {
+        if (JTnev.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "KéremVálaszon Nevet", "Üres Mező", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
-            dbConnection.lakomodosit(JTnev.getText(),JTemelet.getText(),JTajto.getText(),JTID.getText());
+            dbConnection.lakomodosit(JTnev.getText(), JTemelet.getText(), JTajto.getText(), JTID.getText());
             JTnev.setText("");
             JTemelet.setText("");
             JTajto.setText("");
@@ -325,6 +376,20 @@ if (JTnev.getText().equals("")) {
         }
         Show_UsersList_In_JTable();
     }//GEN-LAST:event_JBModositActionPerformed
+
+    private void Lakok_comboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Lakok_comboActionPerformed
+        String nev = Lakok_combo.getSelectedItem().toString();
+        Haz_ID.setText(nev.substring(nev.lastIndexOf(" ") + 1, nev.length()));
+    }//GEN-LAST:event_Lakok_comboActionPerformed
+
+    private void JBModosit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBModosit1ActionPerformed
+        Haz_ID.setText("");
+        JTID.setText("");
+        JTnev.setText("");
+        JTemelet.setText("");
+        JTajto.setText("");
+        JTnegyzetmeter.setText("");
+    }//GEN-LAST:event_JBModosit1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -372,15 +437,20 @@ if (JTnev.getText().equals("")) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Haz_ID;
     private javax.swing.JButton JBLaktorol;
     private javax.swing.JButton JBModosit;
+    private javax.swing.JButton JBModosit1;
     private javax.swing.JButton JBhozza;
     private javax.swing.JTextField JTID;
     private javax.swing.JTextField JTajto;
     private javax.swing.JTextField JTemelet;
     private javax.swing.JTextField JTnegyzetmeter;
     private javax.swing.JTextField JTnev;
+    public static javax.swing.JComboBox<String> Lakok_combo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
