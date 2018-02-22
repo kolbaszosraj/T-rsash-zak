@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -17,7 +18,7 @@ import javax.swing.table.TableModel;
 public class kozoskepviselo extends javax.swing.JDialog {
 
     private DbConnection dbConnection = null;
-
+ public static DefaultTableModel tm;
     /**
      * Creates new form Sugo
      */
@@ -65,6 +66,8 @@ public class kozoskepviselo extends javax.swing.JDialog {
         JTID = new javax.swing.JTextField();
         JLID = new javax.swing.JLabel();
         JBFrissit1 = new javax.swing.JButton();
+        txtsearch = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Közösképviselő hozzáadása");
@@ -111,9 +114,6 @@ public class kozoskepviselo extends javax.swing.JDialog {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ListatablaMouseClicked(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ListatablaMouseEntered(evt);
-            }
         });
         jScrollPane1.setViewportView(Listatabla);
         if (Listatabla.getColumnModel().getColumnCount() > 0) {
@@ -147,6 +147,16 @@ public class kozoskepviselo extends javax.swing.JDialog {
             }
         });
 
+        txtsearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtsearchKeyReleased(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Keresés Név szerint:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,12 +173,14 @@ public class kozoskepviselo extends javax.swing.JDialog {
                                     .addComponent(JBkepvieslo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(kozoskeptorol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(JBFrissit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(JBFrissit1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(JBFrissit1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(JTnev, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(JModosit, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Jtorol1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(JTnev, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(JModosit, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(Jtorol1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(txtsearch)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(JLID, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -198,9 +210,12 @@ public class kozoskepviselo extends javax.swing.JDialog {
                     .addComponent(JModosit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JBFrissit1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -233,10 +248,6 @@ public class kozoskepviselo extends javax.swing.JDialog {
         Show_UsersList_In_JTable();
     }//GEN-LAST:event_kozoskeptorolActionPerformed
 
-    private void ListatablaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListatablaMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ListatablaMouseEntered
-
     private void ListatablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListatablaMouseClicked
         int i = Listatabla.getSelectedRow();
         TableModel model = Listatabla.getModel();
@@ -264,11 +275,25 @@ public class kozoskepviselo extends javax.swing.JDialog {
     }//GEN-LAST:event_JBFrissitActionPerformed
 
     private void JBFrissit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBFrissit1ActionPerformed
-JTID.setText("");   
-JTnev.setText("");
-Jtorol1.setText("");
-JModosit.setText("");
+        JTID.setText("");
+        JTnev.setText("");
+        Jtorol1.setText("");
+        JModosit.setText("");
     }//GEN-LAST:event_JBFrissit1ActionPerformed
+
+    private void txtsearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchKeyReleased
+        String temp = txtsearch.getText() + "%";
+        String sql = "Select * From hazkezelok Where nev like '" + temp + "' ";
+
+        try {
+            dbConnection.ekp = dbConnection.kapcs.prepareStatement(sql);
+            dbConnection.eredmeny = dbConnection.ekp.executeQuery();
+            Listatabla.setModel(DbUtils.resultSetToTableModel(dbConnection.eredmeny));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+       
+    }//GEN-LAST:event_txtsearchKeyReleased
 
     /**
      * @param args the command line arguments
@@ -325,7 +350,9 @@ JModosit.setText("");
     private javax.swing.JTextField JTnev;
     private javax.swing.JTextField Jtorol1;
     private javax.swing.JTable Listatabla;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton kozoskeptorol;
+    private javax.swing.JTextField txtsearch;
     // End of variables declaration//GEN-END:variables
 }
