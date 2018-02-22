@@ -46,17 +46,17 @@ public class DbConnection {
                     JOptionPane.ERROR_MESSAGE);;
         }
     }
-//Lakók Combóbox feltöltése
 
+//Lakók Combóbox feltöltése
     public void LakoCombobox() {
         try {
             String sql = "SELECT* FROM `hazkezelok` JOIN `hazak` ON `hazak`.`tk_ID` = `hazkezelok`.`id`";
-            //FROM `hazak` LEFT JOIN `lakok` ON `lakok`.`Hz_ID` = `hazak`.`id` LEFT JOIN `hazkezelok` ON `hazak`.`tk_ID` = `hazkezelok`.`id`
+
             Statement st = kapcs.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                String name ="Kezelő neve: "+rs.getString("nev")  +" Ház neve: "+rs.getString("haz") + " " + rs.getString("id");
+                String name = "Kezelő neve: " + rs.getString("nev") + " Ház neve: " + rs.getString("haz") + " " + rs.getString("id");
 
                 Lakok.Lakok_combo.addItem(name);
 
@@ -274,7 +274,7 @@ public class DbConnection {
 
     }
 
-    //társasház kezelők táblába helyezése
+    // Társasház kezelő táblába helyezése
     public ArrayList<Users> getkezelo() {
         ArrayList<Users> usersList1 = new ArrayList<>();
         Connection connection = kapcs;
@@ -293,6 +293,31 @@ public class DbConnection {
             e.printStackTrace();
         }
         return usersList1;
+
+    }
+
+    //Lekérdezés kezelők táblába helyezése
+    public ArrayList<Users3> lekerdez() {
+        ArrayList<Users3> usersList3 = new ArrayList<>();
+        Connection connection = kapcs;
+
+        String query = "SELECT*FROM `hazkezelok` LEFT JOIN `hazak` ON `hazak`.`tk_ID` = `hazkezelok`.`id` LEFT JOIN `lakok` ON `lakok`.`Hz_ID` = `hazak`.`id` ";
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+//rs.getString("nev"),rs.getInt("kerulet"),rs.getString("varos"),rs.getString("haz"),rs.getString("utca"),rs.getString("utca"),rs.getInt("hazszam"),
+            //rs.getString("neve"),rs.getInt("emelet"),rs.getInt("ajto"),rs.getInt("negyzetmeter")
+            while (rs.next()) {
+                Users3 user3 = new Users3(rs.getString("nev"), rs.getInt("kerulet"), rs.getString("varos"),
+                        rs.getString("haz"), rs.getInt("hazszam"), rs.getString("neve"),
+                        rs.getInt("emelet"), rs.getInt("ajto"), rs.getInt("negyzetmeter"));
+                usersList3.add(user3);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usersList3;
 
     }
 
@@ -410,6 +435,75 @@ public class DbConnection {
 
         public int Negyzetmeter() {
             return negyzetmeter;
+        }
+
+    }
+
+    //lekérdezéshez szükséges szükséges
+    static class Users3 {
+
+        public String nev;
+        public int kerulet;
+        public String varos;
+        public String haz;
+        public String utca;
+        public int hazszam;
+        public String neve;
+        public int emelet;
+        public int ajto;
+        public int negyzetmeter;
+
+        public Users3(String Nev, int Kerulet, String Varos, String Haz, int Hazszam, String Neve, int Emelet, int Ajto, int Negyzetmeter) {
+            this.nev = Nev;
+            this.kerulet = Kerulet;
+            this.varos = Varos;
+            this.haz = Haz;
+            this.hazszam = Hazszam;
+            this.neve = Neve;
+            this.emelet = Emelet();
+            this.ajto = Ajto();
+            this.utca = Utca();
+            this.negyzetmeter = Negyzetmeter();
+        }
+
+        public String Utca() {
+            return utca;
+        }
+
+        public String Nev() {
+            return nev;
+        }
+
+        public String Neve() {
+            return neve;
+        }
+
+        public int Kerulet() {
+            return kerulet;
+        }
+
+        public String Varos() {
+            return varos;
+        }
+
+        public String Haz() {
+            return haz;
+        }
+
+        public int Ajto() {
+            return ajto;
+        }
+
+        public int Emelet() {
+            return emelet;
+        }
+
+        public int Negyzetmeter() {
+            return negyzetmeter;
+        }
+
+        public int Hazszam() {
+            return hazszam;
         }
 
     }

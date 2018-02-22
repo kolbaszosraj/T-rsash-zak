@@ -7,12 +7,13 @@
 /**
  *
  * @author Balog Zsolt
+ * @version 1.0
+ *
  */
 public class Tarsashaz extends javax.swing.JFrame {
 
     private DbConnection dbConnection = null;
 
-    
     public Tarsashaz() {
         initComponents();
 //egyetlen egye példányos futtatás a kapcsolathoz
@@ -20,23 +21,26 @@ public class Tarsashaz extends javax.swing.JFrame {
 
     }
 
+    public void Lekerdezes() {
+        lekerdez le = new lekerdez(this, true);
+        le.setVisible(true);
+    }
+
     public void lako() {
         Lakok l = new Lakok(this, true);
         l.setVisible(true);
     }
-    
-    
+
     public void sugo() {
         kozoskepviselo s = new kozoskepviselo(this, true);
         s.setVisible(true);
     }
-    
-    public void hazak(){
-    Hazak h =new Hazak(this,true);
-    h.setVisible(true);
-    
+
+    public void hazak() {
+        Hazak h = new Hazak(this, true);
+        h.setVisible(true);
+
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -45,6 +49,7 @@ public class Tarsashaz extends javax.swing.JFrame {
         JBkepviselo = new javax.swing.JButton();
         JBHaz = new javax.swing.JButton();
         JBlako = new javax.swing.JButton();
+        JBlekerdez = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,6 +77,14 @@ public class Tarsashaz extends javax.swing.JFrame {
             }
         });
 
+        JBlekerdez.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        JBlekerdez.setText("Lekérdezés");
+        JBlekerdez.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBlekerdezActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,7 +94,8 @@ public class Tarsashaz extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JBkepviselo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(JBHaz, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(JBlako, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(JBlako, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(JBlekerdez, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -93,7 +107,9 @@ public class Tarsashaz extends javax.swing.JFrame {
                 .addComponent(JBHaz)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JBlako)
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JBlekerdez)
+                .addContainerGap(176, Short.MAX_VALUE))
         );
 
         pack();
@@ -101,16 +117,21 @@ public class Tarsashaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JBkepviseloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBkepviseloActionPerformed
+
         sugo();
     }//GEN-LAST:event_JBkepviseloActionPerformed
 
     private void JBHazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBHazActionPerformed
-        hazak();        // TODO add your handling code here:
+        hazak();
     }//GEN-LAST:event_JBHazActionPerformed
 
     private void JBlakoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBlakoActionPerformed
-       lako();
+        lako();
     }//GEN-LAST:event_JBlakoActionPerformed
+
+    private void JBlekerdezActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBlekerdezActionPerformed
+        Lekerdezes();
+    }//GEN-LAST:event_JBlekerdezActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,5 +173,6 @@ public class Tarsashaz extends javax.swing.JFrame {
     private javax.swing.JButton JBHaz;
     private javax.swing.JButton JBkepviselo;
     private javax.swing.JButton JBlako;
+    private javax.swing.JButton JBlekerdez;
     // End of variables declaration//GEN-END:variables
 }
