@@ -1,9 +1,9 @@
 
-import java.sql.Connection;
+/*import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Statement;*/
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,8 +21,18 @@ import javax.swing.table.TableModel;
 public class Hazak extends javax.swing.JDialog {
 
     private DbConnection dbConnection = null;
+
+    /**
+     *
+     */
     public static DefaultTableModel tm1;
 
+    /**
+     *
+     * @param parent szülőosztályhoz tartozik 
+     * @param modal logikai értéket add vissza
+     * méretett tudunk megadni
+     */
     public Hazak(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -31,6 +41,10 @@ public class Hazak extends javax.swing.JDialog {
         dbConnection.Fillcombo();
     }
 
+    /**
+     *ki iratjuk egy listából a házakban szereplő táblába 
+     * neveket stb 
+     */
     public void Show_UsersList_In_JTable() {
 
         ArrayList<DbConnection.User> list = dbConnection.getUsersList();

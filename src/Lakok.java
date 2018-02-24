@@ -11,13 +11,18 @@ import javax.swing.table.TableModel;
  */
 /**
  *
- * @author t1
+ * @author Balog Zsolt
  */
 public class Lakok extends javax.swing.JDialog {
 
     private DbConnection dbConnection = null;
     DefaultTableModel tm;
 
+    /**
+     *
+     * @param parent
+     * @param modal
+     */
     public Lakok(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -26,6 +31,9 @@ public class Lakok extends javax.swing.JDialog {
         dbConnection.LakoCombobox();
     }
 
+    /**
+     * ki iratjuk egy for ciklus segitségével egy táblába lakokat
+     */
     public void Show_UsersList_In_JTable() {
 
         ArrayList<DbConnection.Users2> list = dbConnection.lako();

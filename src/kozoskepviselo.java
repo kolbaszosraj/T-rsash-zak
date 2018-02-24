@@ -13,14 +13,20 @@ import net.proteanit.sql.DbUtils;
 
 /**
  *
- * @author t1
+ * @author Balog Zsolt
  */
 public class kozoskepviselo extends javax.swing.JDialog {
 
     private DbConnection dbConnection = null;
- public static DefaultTableModel tm;
+
+    /**
+     *
+     */
+    public static DefaultTableModel tm;
     /**
      * Creates new form Sugo
+     * @param parent
+     * @param modal
      */
     public kozoskepviselo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -30,6 +36,9 @@ public class kozoskepviselo extends javax.swing.JDialog {
         Show_UsersList_In_JTable();
     }
 
+    /**
+     *kilistázuk ada adatbázisban szereplő neveket és ID ket táblázatba
+     */
     public void Show_UsersList_In_JTable() {
 
         ArrayList<DbConnection.Users> list = dbConnection.getkezelo();

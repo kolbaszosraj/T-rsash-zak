@@ -14,6 +14,11 @@ public class Tarsashaz extends javax.swing.JFrame {
 
     private DbConnection dbConnection = null;
 
+    /**
+     * meghivjuk dbConnectiun methodust
+     * a társashaz indulásakor és castlakozunk az adatbázishoz
+     * majd a szingelton programozás elvet követve adunk neki 1 példányt
+     */
     public Tarsashaz() {
         initComponents();
 //egyetlen egye példányos futtatás a kapcsolathoz
@@ -21,21 +26,33 @@ public class Tarsashaz extends javax.swing.JFrame {
 
     }
 
+    /**
+     * megjelniti a lekerdezés nevü ablakot
+     */
     public void Lekerdezes() {
         lekerdez le = new lekerdez(this, true);
         le.setVisible(true);
     }
 
+    /**
+     * megjelniti a lako nevü ablakot
+     */
     public void lako() {
         Lakok l = new Lakok(this, true);
         l.setVisible(true);
     }
 
+    /**
+     * megjelniti a lekerdezés (teszt ablak volt a sugó) megjelniti a közösképviselők ablakát ablakot
+     */
     public void sugo() {
         kozoskepviselo s = new kozoskepviselo(this, true);
         s.setVisible(true);
     }
 
+    /**
+     *megjelniti a hazak kezelésére szolgáló ablakot
+     */
     public void hazak() {
         Hazak h = new Hazak(this, true);
         h.setVisible(true);

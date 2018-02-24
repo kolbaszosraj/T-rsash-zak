@@ -24,13 +24,15 @@ public class DbConnection {
     ResultSet eredmeny = null;
     PreparedStatement ekp = null;
 
-    final String dbUrl = "jdbc:mysql://localhost:3306/tarsashazkezelo";
+    final String dbUrl = "jdbc:mysql://localhost:3306/tarsashazkezelo"
+            + "?useUnicode=true&characterEncoding=UTF-8";
     final String user = "root";
     final String pass = "";
     final JPanel panel = new JPanel();
     private static DbConnection dbConnection = null;
 
 //Kapcsolodás az adatbázisal
+    @SuppressWarnings("empty-statement")
     private DbConnection() {
 
         try {
@@ -47,7 +49,9 @@ public class DbConnection {
         }
     }
 
-//Lakók Combóbox feltöltése
+    /**
+     * Lakók Combóbox feltöltése
+     */
     public void LakoCombobox() {
         try {
             String sql = "SELECT* FROM `hazkezelok` JOIN `hazak` ON `hazak`.`tk_ID` = `hazkezelok`.`id`";
@@ -62,13 +66,15 @@ public class DbConnection {
 
             }
 
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
 
     }
 
-    //Házak Combóbox feltöltése   
+    /**
+     * Házak Combóbox feltöltése
+     */
     public void Fillcombo() {
         try {
             String sql = "Select * From hazkezelok";
@@ -82,13 +88,18 @@ public class DbConnection {
 
             }
 
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
 
     }
 
     //Ujj név felvétele a kepviselok táblába
+    /**
+     *
+     * @param nev be illesztése az házkezelo táblába sql parancs segitségével az
+     * adatbázisba
+     */
     public void uj(String nev) {
         try {
             String s = "INSERT INTO hazkezelok(nev)VALUES('" + nev + "');";
@@ -100,6 +111,11 @@ public class DbConnection {
     }
 
     // Singleton programozási minta
+    /**
+     *
+     * @return minden példányban 1x szereperhet mert visszakapott értékből
+     * dolgozik
+     */
     public static DbConnection getInstance() {
         if (dbConnection == null) {
             dbConnection = new DbConnection();
@@ -113,6 +129,12 @@ public class DbConnection {
     }
 
     //kepviselok frissitése
+    /**
+     *
+     * @param nev képviselő táblában név firssitése SQL parancs segitségével
+     * @param id az ID szolgál egy támpontnak amit a Where parancsala keresük
+     * meg
+     */
     public void keviselofriss(String nev, String id) {
         try {
             String s = "UPDATE hazkezelok SET nev=('" + nev + "') WHERE id=('" + id + "') ;";
@@ -124,6 +146,11 @@ public class DbConnection {
     }
 
 //Képviselő törlése
+    /**
+     *
+     * @param nev közösképviselő törlése SQL parancs segitségével de mielött ez
+     * megtörténne megbizonyodosunk rol a hogy valóban szeretnénk törölni
+     */
     public void kepviselotorol(String nev) {
         String[] gombok = {"Igen", "Nem"};
         int v = JOptionPane.showOptionDialog(null, "Biztosan törli?", "", JOptionPane.YES_NO_OPTION,
@@ -140,6 +167,24 @@ public class DbConnection {
     }
 
     //Ujj Ház felvétele a haz táblába
+    /**
+     *
+     * @param kerulet szám tipusú változó amiben tároljuk majd feltöltjük az
+     * adatokat az adatbázisba SQL parancs segitségével
+     * @param varos szöveges beviteli mező amibe az város nevét kell majd
+     * megadni amit feltöltünk a hazak adatbázisba
+     * @param haz szöveges beviteli mező amibe az ház nevét kell majd megadni
+     * amit feltöltünk a hazak adatbázisba
+     * @param utca szöveges beviteli mező amibe az utca nevét kell majd megadni
+     * amit feltöltünk a hazak adatbázisba
+     * @param hazszam szám tipusú változó amiben tároljuk majd feltöltjük az
+     * adatokat az adatbázisba SQL parancs segitségével
+     * @param tk_id társasház kezelő ID ami autó növekvő azonositó ez
+     * szolgáltatja hogy meglegyen a kapcsolat a társasház kezelőkel nem viszünk
+     * fel adatott
+     *
+     * ujjház hozzáadás a hazak táblába
+     */
     public void ujhaz(int kerulet, String varos, String haz, String utca, int hazszam, int tk_id) {
         try {
             String h = "INSERT INTO hazak(kerulet,varos,haz,utca,hazszam,tk_ID)VALUES('" + kerulet + "','" + varos + "','" + haz + "','" + utca + "','" + hazszam + "'," + tk_id + ");";
@@ -152,6 +197,21 @@ public class DbConnection {
     }
 
     //Ház Fissitése
+    /**
+     *
+     * @param kerulet szám tipusú változó amiben tároljuk majd frissitjük az
+     * adatokat az adatbázisba SQL parancs segitségével
+     * @param varos szöveges beviteli mező amibe az város nevét kell majd
+     * megadni amit frissitjük a hazak adatbázisba
+     * @param haz szöveges beviteli mező amibe az ház nevét kell majd megadni
+     * amit frissitünk a hazak adatbázisba
+     * @param utca szöveges beviteli mező amibe az utca nevét kell majd megadni
+     * amit frissitjük a hazak adatbázisba
+     * @param hazszam szám tipusú változó amiben tároljuk majd frissitjük az
+     * adatokat az adatbázisba SQL parancs segitségével
+     * @param id a where parancsal azt keresük meg hogy meik egyedi azonositóhoz
+     * tartozik a kiejült so majd pediglen azt frissitjük
+     */
     public void Hazakfriss(String kerulet, String varos, String haz, String utca, String hazszam, String id) {
         try {
             String s = "UPDATE hazak SET kerulet=('" + kerulet + "'),varos=('" + varos + "'),haz=('" + haz + "') , utca=('" + utca + "') , hazszam=('" + hazszam + "') WHERE id=('" + id + "') ;";
@@ -163,6 +223,11 @@ public class DbConnection {
     }
 
     //Ház törlése
+    /**
+     *
+     * @param id keresett érték az adatbázisban majd ahol egyezés van és
+     * kivánjuk törölni kitöröljük
+     */
     public void Haztorlese(String id) {
         String[] gombok = {"Igen", "Nem"};
         int v = JOptionPane.showOptionDialog(null, "Biztosan törli?", "", JOptionPane.YES_NO_OPTION,
@@ -179,6 +244,16 @@ public class DbConnection {
     }
 
     //Lakó hozzáadás
+    /**
+     *
+     * @param neve lakó nevét adjuk meg és feltöltjük az adatbázisba
+     * @param emelet lakó emelet adjuk meg majd feltöltjük
+     * @param ajto lakó ajtó adjuk meg majd feltöltjük
+     * @param negyzetmeter lakóhoz tartozó ház négyzetméterét adjuk meg majd
+     * feltöltjük
+     * @param Hz_ID ezzel adjuk meg neki hogy meik házhoz tartozik a lakó akit
+     * kivánunk felvinni
+     */
     public void ujlako(String neve, int emelet, int ajto, int negyzetmeter, int Hz_ID) {
         try {
             String h = "INSERT INTO lakok(neve,emelet,ajto,negyzetmeter,Hz_ID)VALUES('" + neve
@@ -192,6 +267,14 @@ public class DbConnection {
     }
 
     //Lakó módosit
+    /**
+     *
+     * @param nev modisitani kivánt név felvétele
+     * @param emelet modisitani kivánt emelet felvétele
+     * @param ajto modisitani kivánt ajto felvétele
+     * @param id keresési érték nem mi adjuk meg a program keresi meg hogy meik
+     * egyedi azonositvól rendelkezőt kivánunk frissiteni
+     */
     public void lakomodosit(String nev, String emelet, String ajto, String id) {
         try {
             String s = "UPDATE lakok SET neve=('" + nev + "') , emelet=('" + emelet + "') , ajto=('" + ajto + "') WHERE id=('" + id + "') ;";
@@ -203,6 +286,10 @@ public class DbConnection {
     }
 
     //Lakó Törlése
+    /**
+     *
+     * @param nev ezel az értékel keresük meg a kivánt elem törlését
+     */
     public void lakotorles(String nev) {
         String[] gombok = {"Igen", "Nem"};
         int v = JOptionPane.showOptionDialog(null, "Biztosan törli?", "", JOptionPane.YES_NO_OPTION,
@@ -219,6 +306,12 @@ public class DbConnection {
     }
 
     //Házak ki listázása amikor az adabázisban megtalálhatók.
+    /**
+     *
+     * @return visszatérő értékre hivatkozik egy SQL parancs segitségével ki
+     * listázuk egy user nevü változóba majd pedig hozzá adjuk a userList
+     * táblához
+     */
     public ArrayList<User> getUsersList() {
         ArrayList<User> usersList = new ArrayList<>();
         Connection connection = kapcs;
@@ -241,7 +334,7 @@ public class DbConnection {
 
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return usersList;
@@ -249,6 +342,12 @@ public class DbConnection {
     }
 
     //Lakók ki iratása táblázatba
+    /**
+     *
+     * @return visszatérő értékre hivatkozik egy SQL parancs segitségével ki
+     * listázuk egy Users2 nevü változóba majd pedig hozzá adjuk a userList2
+     * táblához
+     */
     public ArrayList<Users2> lako() {
         ArrayList<Users2> usersList2 = new ArrayList<>();
         Connection connection = kapcs;
@@ -275,6 +374,12 @@ public class DbConnection {
     }
 
     // Társasház kezelő táblába helyezése
+    /**
+     *
+     * @return visszatérő értékre hivatkozik egy SQL parancs segitségével ki
+     * listázuk egy Users nevü változóba majd pedig hozzá adjuk a userList1
+     * táblához
+     */
     public ArrayList<Users> getkezelo() {
         ArrayList<Users> usersList1 = new ArrayList<>();
         Connection connection = kapcs;
@@ -297,16 +402,21 @@ public class DbConnection {
     }
 
     //Lekérdezés kezelők táblába helyezése
+    /**
+     *
+     * @return lekérdezés táblába ki listázuk ad adabázisban található neve
+     * kerületek stb majdpediglen hozzáadjuk userlist3 nevü táblához
+     */
     public ArrayList<Users3> lekerdez() {
         ArrayList<Users3> usersList3 = new ArrayList<>();
         Connection connection = kapcs;
 
-        String query = "SELECT*FROM `hazkezelok` LEFT JOIN `hazak` ON `hazak`.`tk_ID` = `hazkezelok`.`id` LEFT JOIN `lakok` ON `lakok`.`Hz_ID` = `hazak`.`id` ";
+        String query = "SELECT*FROM `hazkezelok` LEFT JOIN `hazak` ON `hazak`.`tk_ID` = `hazkezelok`.`id` "
+                + " JOIN `lakok` ON `lakok`.`Hz_ID` = `hazak`.`id` ";
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);
-//rs.getString("nev"),rs.getInt("kerulet"),rs.getString("varos"),rs.getString("haz"),rs.getString("utca"),rs.getString("utca"),rs.getInt("hazszam"),
-            //rs.getString("neve"),rs.getInt("emelet"),rs.getInt("ajto"),rs.getInt("negyzetmeter")
+
             while (rs.next()) {
                 Users3 user3 = new Users3(rs.getString("nev"), rs.getInt("kerulet"), rs.getString("varos"),
                         rs.getString("haz"), rs.getInt("hazszam"), rs.getString("neve"),
@@ -373,21 +483,44 @@ public class DbConnection {
     }
 
     //Társasházu kezelőkhöz szükséges
+    /**
+     *
+     */
     public static class Users {
 
+        /**
+         *
+         */
         public int id;
+
+        /**
+         *
+         */
         public String nev;
 
+        /**
+         *
+         * @param ID
+         * @param Nev
+         */
         public Users(int ID, String Nev) {
             this.id = ID;
             this.nev = Nev;
 
         }
 
+        /**
+         *
+         * @return
+         */
         public int ID() {
             return id;
         }
 
+        /**
+         *
+         * @return
+         */
         public String Nev() {
             return nev;
         }
